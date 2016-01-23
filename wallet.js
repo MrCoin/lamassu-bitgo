@@ -37,7 +37,9 @@ exports.sendBitcoins = function sendBitcoins(address, satoshis, fee, callback) {
       address: address,
       amount: satoshis,
       // fee: fee,  // TODO: support fee in sendCoins
-      walletPassphrase: pluginConfig.walletPassphrase
+      walletPassphrase: pluginConfig.walletPassphrase,
+      minConfirms: 1, // avoid spending malleated inputs
+      enforceMinConfirmsForChange: true
     };
     return wallet.sendCoins(params);
   })
