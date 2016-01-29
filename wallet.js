@@ -39,7 +39,8 @@ exports.sendBitcoins = function sendBitcoins(address, satoshis, fee, callback) {
       // fee: fee,  // TODO: support fee in sendCoins
       walletPassphrase: pluginConfig.walletPassphrase,
       minConfirms: 1, // avoid spending malleated inputs
-      enforceMinConfirmsForChange: true
+      enforceMinConfirmsForChange: true, // avoid spending malleated change txs
+      minUnspentsTarget: 8 // ensures the BitGo wallet has plenty of UTXOs to perform multiple transactions safely within a single block confirmation time window
     };
     return wallet.sendCoins(params);
   })
