@@ -38,7 +38,12 @@ exports.sendBitcoins = function sendBitcoins (address, satoshis, fee, callback) 
         address: address,
         amount: satoshis,
         // fee: fee,  // TODO: support fee in sendCoins
-        walletPassphrase: pluginConfig.walletPassphrase
+        walletPassphrase: pluginConfig.walletPassphrase,
+        // minConfirms: 1, // avoid spending malleated inputs
+        // enforceMinConfirmsForChange: true, // avoid spending malleated change txs
+        targetWalletUnspents: 4, // ensures the BitGo wallet has plenty of UTXOs to perform multiple transactions safely within a single block confirmation time window
+        feeTxConfirmTarget: 2, // Calculate fees dinamically so tx arrives in seconds block
+        maxFeeRate: 300000 // add a sane limit for the fee rate in case the network fee would go crazy
       }
       return wallet.sendCoins(params)
     })
